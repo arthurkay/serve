@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
@@ -14,7 +15,12 @@ var (
 
 func logger(f http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-Powered-By", "CCMK")
+		w.Header().Set("X-Powered-By", "NerdyGeek")
+		payload, err := io.ReadAll(r.Body)
+		if err != nil {
+			log.Printf("Error reading request body: %s", err.Error())
+		}
+		log.Printf("%s", payload)
 		log.Printf("%s%s", r.Host, r.URL.Path)
 		f.ServeHTTP(w, r)
 	}
