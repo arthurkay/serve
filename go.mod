@@ -1,3 +1,3 @@
-module serve
+module github.com/arthurkay/serve
 
 go 1.17
